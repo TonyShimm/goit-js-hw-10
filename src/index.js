@@ -24,7 +24,7 @@ fetchBreeds()
     console.log(error);
     hideLoader();
   })
-  .finaly(() => {
+  .finally(() => {
     refs.loader.style.display = 'none';
   });
 
