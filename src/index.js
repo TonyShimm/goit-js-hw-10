@@ -16,9 +16,17 @@ showLoader();
 hideError();
 hideSelect();
 
-fetchBreeds().then(breeds => {
-  populateSelectWithBreeds(breeds);
-});
+fetchBreeds()
+  .then(breeds => {
+    populateSelectWithBreeds(breeds.data);
+  })
+  .catch(error => {
+    console.log(error);
+    hideLoader();
+  })
+  .finaly(() => {
+    refs.loader.style.display = 'none';
+  });
 
 refs.selectField.addEventListener('change', showCardCat);
 
@@ -43,17 +51,17 @@ function showCardCat(event) {
   const selectedBreedId = event.target.value;
 
   showLoader();
+  hideError();
 
   fetchEachCat(selectedBreedId)
     .then(catData => {
       hideLoader();
-      hideError();
 
-      refs.cartdCard.innerHTML = `<img src="${catData[0].url}" alt="" />
+      refs.cartdCard.innerHTML = `<img src="${catData.data[0].url}" alt="" />
       <div class="characteristics-cat">
-        <h2>${catData[0].breeds[0].name}</h2>
-        <p>${catData[0].breeds[0].description}</p>
-        <p><span class="temp">Temperament: </span>${catData[0].breeds[0].temperament}</p>
+        <h2>${catData.data[0].breeds[0].name}</h2>
+        <p>${catData.data[0].breeds[0].description}</p>
+        <p><span class="temp">Temperament: </span>${catData.data[0].breeds[0].temperament}</p>
       </div>`;
     })
     .catch(error => {

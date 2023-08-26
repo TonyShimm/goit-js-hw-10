@@ -6,34 +6,14 @@ const headers = {
   'x-api-key': API_KEY,
 };
 
-export function fetchBreeds() {
-  const BASE_URL = 'https://api.thecatapi.com/v1/breeds';
+const BASE_URL = 'https://api.thecatapi.com/v1';
 
-  return axios
-    .get(BASE_URL, { headers })
-    .then(response => {
-      if (response.status !== 200) {
-        throw new Error(response.statusText);
-      }
-      return response.data;
-    })
-    .catch(error => {
-      throw new Error(error.message);
-    });
+export function fetchBreeds() {
+  return axios.get(`${BASE_URL}/breeds`, { headers });
 }
 
 export function fetchEachCat(breedId) {
-  const SEARCH_URL = `https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}`;
-
-  return axios
-    .get(SEARCH_URL, { headers })
-    .then(response => {
-      if (response.status !== 200) {
-        throw new Error(response.statusText);
-      }
-      return response.data;
-    })
-    .catch(error => {
-      throw new Error(error.message);
-    });
+  return axios.get(`${BASE_URL}/images/search?breed_ids=${breedId}`, {
+    headers,
+  });
 }
